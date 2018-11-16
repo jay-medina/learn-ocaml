@@ -37,6 +37,12 @@ let apply_action character = function
   | GoToRestaurant ->
       { location = Restaurant;
         state = character.state; name = character.name }
+  | Sleep -> 
+      {
+        location = Appartment;
+        state = Hungry; 
+        name = character.name;
+      }
 ;;
 
 let compatible_actions context =
@@ -57,6 +63,7 @@ let possible_changes_for_character character =
   match character with
   | { state = Happy } -> [Hungry]
   | { state = Hungry } -> []
+  | { state = Tired } -> []
 ;;
 let apply_change character state =
   { name = character.name; state = state; location = character.location }
@@ -146,6 +153,7 @@ let describe_location = function
 let describe_state = function
   | Happy -> "happy"
   | Hungry -> "hungry"
+  | Tired -> "tired"
 ;;
 let describe character =
   character.name ^ " was "
@@ -164,6 +172,7 @@ let tell_context context =
 let tell_action = function
   | Eat -> "ate"
   | GoToRestaurant -> "went to the restaurant"
+  | Sleep -> "took a nap"
 ;;
 
 let tell_event = function
@@ -194,3 +203,5 @@ let story = tell (make_story {
       { name = "Socrate"; location = Appartment; state = Happy };
     ]
   });;
+
+print_endline story ;;
