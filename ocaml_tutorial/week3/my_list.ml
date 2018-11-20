@@ -32,17 +32,59 @@ let example =
         CApp (CSingle 3,
               CApp (CSingle 4, CEmpty)))
 
-let to_list l =
-  "Replace this string with your implementation." ;;
+let rec to_list l =
+  match l with
+  | CEmpty -> []
+  | CSingle a -> [a]
+  | CApp (x, y) -> (to_list x) @ (to_list y)
 
 let rec of_list l =
-  "Replace this string with your implementation." ;;
+  match l with
+  | [] -> CEmpty
+  | [a] -> CSingle a
+  | x::xs -> CApp (of_list [x], of_list xs)
 
 let append l1 l2 =
-  "Replace this string with your implementation." ;;
+  match (l1, l2) with
+  | (CEmpty, l2) -> l2
+  | (l1, CEmpty) -> l1
+  | (l1, l2) -> CApp(l1, l2) ;;
 
-let hd l =
-  "Replace this string with your implementation." ;;
+let rec hd l =
+  match l with
+  | CEmpty -> None
+  | CSingle a -> Some a
+  | CApp (x, y) -> let ans = hd x in 
+                   if (ans = None) then hd y else ans
 
 let tl l =
-  "Replace this string with your implementation." ;;
+  match l with 
+  | CEmpty -> None
+  | CSingle a -> Some CEmpty
+  | l1 -> let asList = to_list l1 in 
+          match asList with 
+          [] -> None
+          | _ -> Some (of_list (List.tl asList))
+
+
+let rec print_list = function 
+[] -> ()
+| e::l -> print_int e ; print_string " " ; print_list l ;;
+
+let print_int_option = function
+  | None -> print_string ""
+  | Some x -> print_int x 
+
+(* let ex = print_list (to_list example);; *)
+
+(* let ex2 = print_list (to_list (of_list [1;2;3;4])) ;; *)
+
+let c_list1 = (of_list [5;2;2;2])
+(* let c_list2 = (of_list [3;3;3;3])
+let comb_clists = append c_list1 c_list2
+let ex3 = print_list (to_list comb_clists) *)
+
+(* let ex4 = print_int_option (hd c_list1) *)
+
+let fail_ex1 = tl (CApp (CApp (CEmpty, CEmpty), CEmpty))
+let fail_ex2 = tl (CApp (CEmpty, CEmpty))
