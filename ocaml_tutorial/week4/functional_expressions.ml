@@ -12,8 +12,12 @@ In this exercise, we will define functions as values, also called lambda express
 *)
 
 
-let rec last_element = function _ ->
-  "Replace this string with your implementation." ;;
+let rec last_element = function 
+  [] -> (invalid_arg "last_element")
+  | [x] -> x
+  | x::xs -> last_element xs
+  
 
-let rec is_sorted = function _ ->
-  "Replace this string with your implementation." ;;
+let rec is_sorted = function 
+  [] | [_] -> true
+| x::y::xs -> x < y && (is_sorted (y::xs))
