@@ -30,17 +30,24 @@ type operation =
 type env = (string * (int -> int -> int)) list
 
 
-let rec lookup_function n = function _->
-  "Replace this string with your implementation"
+let rec lookup_function n = function 
+   [] -> (invalid_arg "lookup_function")
+ | (name, fn) :: xs -> if name = n then fn else (lookup_function n xs)
 
 let add_function name op env =
-  "Replace this string with your implementation"
+  (name, op) :: env
 
 let my_env =
-  "Replace this string with your implementation"
+  [ ("min", fun x y -> if x < y then x else y) ]
 
 let rec compute env op =
-  "Replace this string with your implementation"
+  match op with 
+    Value(x) -> x
+  | Op(name, op1, op2) -> let fn = (lookup_function name env) in 
+                          let ans1 = compute env op1 in 
+                          let ans2 = compute env op2 in 
+                          fn ans1 ans2 
 
-let rec compute_eff env = function _ ->
-  "Replace this string with your implementation"
+let rec compute_eff env = function
+ Value(x) -> x
+| Op(name, op1, op2) -> ((lookup_function name env) (compute_eff env op1) (compute_eff env op2))
