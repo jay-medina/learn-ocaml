@@ -15,8 +15,11 @@ type 'a tree =
     Node of 'a tree * 'a * 'a tree
   | Leaf of 'a;;
 
-let wrap l =
-  "Replace this string with your implementation." ;;
+let wrap =
+  List.map (fun x -> [x])
 
-let rec tree_map f = function _ ->
-  "Replace this string with your implementation." ;;
+let rec tree_map f tree =
+  match tree with 
+  | Leaf(x) -> Leaf(f x)
+  | Node(l_tree, v, r_tree) -> Node(tree_map f l_tree, f v, tree_map f r_tree)
+
