@@ -1,4 +1,4 @@
-Lessons and notes from Cornell CS3110
+## Lessons and notes from Cornell CS3110
 
 http://www.cs.cornell.edu/courses/cs3110/2019sp/textbook
 
