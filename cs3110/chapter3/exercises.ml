@@ -31,3 +31,8 @@ let rec product li =
   match li with 
   | [] -> 1
   | x::xs -> x * product xs
+
+let rec concat li = 
+  match li with 
+  | [] -> ""
+  | x::xs -> x ^ concat xs
