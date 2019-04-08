@@ -36,3 +36,19 @@ let rec concat li =
   match li with 
   | [] -> ""
   | x::xs -> x ^ concat xs
+
+let patterns (li: string list) =
+  match li with
+  | "bigred"::xs -> true
+  | [x;y] -> true
+  | [_;_;_;_] -> true
+  | x::y::xs -> x = y
+  | _ -> false
+
+(* Library *)
+let getFifth (li: 'a list) =
+  if List.length li < 5 then 0
+  else (List.nth li 4)
+
+let sortDesc li = 
+  List.rev (List.sort Pervasives.compare li)
