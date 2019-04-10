@@ -52,3 +52,42 @@ let getFifth (li: 'a list) =
 
 let sortDesc li = 
   List.rev (List.sort Pervasives.compare li)
+
+(* library puzzle *) 
+let getLastElement (li: 'a list) =
+  let len = List.length li in 
+  if len = 0 then None
+  else List.nth_opt li (len - 1)
+
+let anyZeros = 
+  List.exists (fun x -> x = 0) 
+
+(* take drop *)
+let take (i: int) (li: 'a list) = 
+    let rec looper nth rest acc = 
+      match rest with
+      | [] -> acc
+      | x::xs -> 
+        if nth = 0 then acc
+        else looper (nth - 1) xs (acc @ [x])
+    in
+    if List.length li < i || i < 1 then li 
+    else 
+      looper i li []
+    
+let drop (i: int) (li: 'a list) = 
+  let rec looper nth rest = 
+      match rest with
+      | [] -> []
+      | x::xs -> 
+        if nth = 0 then rest
+        else looper (nth - 1) xs
+  in
+    if List.length li < i || i < 1 then [] 
+    else 
+      looper i li
+
+let is_unimodal (li: int list) =
+  match li with
+  | ([] | [_]) -> true
+  | x::xs -> false
