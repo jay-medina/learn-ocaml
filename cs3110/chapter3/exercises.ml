@@ -88,6 +88,12 @@ let drop (i: int) (li: 'a list) =
       looper i li
 
 let is_unimodal (li: int list) =
+  let rec checkOrder comparer rest = 
+    match rest with 
+    | ([] | [_]) -> true
+    | x::y::xs -> (comparer x y) && (checkOrder comparer (y::xs))
+  in
   match li with
   | ([] | [_]) -> true
-  | x::xs -> false
+  | x::y::xs -> if x < y then checkOrder (fun x y -> x < y) li
+                else checkOrder (fun x y -> x > y) li
