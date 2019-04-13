@@ -97,3 +97,22 @@ let is_unimodal (li: int list) =
   | ([] | [_]) -> true
   | x::y::xs -> if x < y then checkOrder (fun x y -> x < y) li
                 else checkOrder (fun x y -> x > y) li
+
+let powerset (li: int list) = 
+  let createNewList (x: int) = 
+    List.map (fun y -> List.concat [y; [x]])
+  in
+  let addNextSetToCurrent (total: int list list) (nextSets: int list list) = 
+    List.concat [total; nextSets]
+  in
+  let rec loop (total: int list list) (currentLI: int list) = 
+    match currentLI with
+    | [] -> total
+    | x::xs -> let nextSets = createNewList x total in
+               let nextTotal = addNextSetToCurrent total nextSets in 
+               (loop nextTotal xs)
+               
+  in
+    loop [[]] li
+  
+
